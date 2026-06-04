@@ -49,7 +49,7 @@ Install to the current emulator:
 Launch:
 
 ```powershell
-& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" shell am start -n com.example.seniorpaymentguard/.MainActivity
+& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" shell am start -n li.vinkent.seniorpaymentguard/.MainActivity
 ```
 
 ## What Can Be Automatic

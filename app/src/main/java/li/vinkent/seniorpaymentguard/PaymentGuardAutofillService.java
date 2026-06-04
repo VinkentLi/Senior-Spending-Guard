@@ -1,4 +1,4 @@
-package com.example.seniorpaymentguard;
+package li.vinkent.seniorpaymentguard;
 
 import android.app.PendingIntent;
 import android.app.assist.AssistStructure;
