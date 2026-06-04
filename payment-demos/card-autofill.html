@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Card Autofill Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <h1>Card Autofill Demo</h1>
+    <p>This is a local sandbox form. Use test card numbers only.</p>
+    <form class="checkout" autocomplete="on" method="post" action="#">
+      <label>
+        Name on card
+        <input type="text" name="ccname" id="cc-name" autocomplete="cc-name" inputmode="text" placeholder="Test Card">
+      </label>
+      <label>
+        Card number
+        <input type="text" name="cardnumber" id="cc-number" autocomplete="cc-number" inputmode="numeric" pattern="[0-9 ]*" placeholder="4111111111111111">
+      </label>
+      <div class="grid">
+        <label>
+          Expiration
+          <input type="text" name="exp-date" id="cc-exp" autocomplete="cc-exp" inputmode="numeric" placeholder="12/30">
+        </label>
+        <label>
+          CVV
+          <input type="text" name="cvc" id="cc-csc" autocomplete="cc-csc" inputmode="numeric" pattern="[0-9]*" placeholder="123">
+        </label>
+      </div>
+      <label>
+        Billing ZIP/postal code
+        <input type="text" name="postal" id="postal-code" autocomplete="billing postal-code" inputmode="text" placeholder="12345">
+      </label>
+      <button type="button">Demo only</button>
+    </form>
+  </main>
+</body>
+</html>
