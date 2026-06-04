@@ -8,10 +8,10 @@ The app does not try to detect or block every checkout screen. That approach is 
 
 - Shows a guided setup assistant for the real causes of accidental spending.
 - Guides caregivers to Chrome payment settings and Google Play purchase authentication.
-- Makes `Caregiver Autofill` the first setup step because Android can let the caregiver replace the default autofill provider.
+- Makes `Senior Spending Guard Autofill` the first setup step because Android can let the caregiver replace the default autofill provider.
 - Tracks checklist progress locally.
 - Stores a caregiver PIN, default `1234`.
-- Registers an optional Android Autofill Service named `Caregiver Autofill`.
+- Registers an optional Android Autofill Service named `Senior Spending Guard Autofill`.
 - Lets a caregiver save a low-limit card profile for convenience.
 - Requires the caregiver PIN before the saved card is filled.
 
@@ -49,19 +49,19 @@ Install to the current emulator:
 Launch:
 
 ```powershell
-& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" shell am start -n li.vinkent.seniorpaymentguard/.MainActivity
+& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" shell am start -n li.vinkent.seniorspendingguard/.MainActivity
 ```
 
 ## What Can Be Automatic
 
 Android does not let a normal app silently change Chrome, Google Play, bank, or merchant-app payment settings. The app can open the closest settings screen and show exact steps, but the caregiver must confirm those changes.
 
-Android does let the caregiver choose this app as the default Autofill Service. Once selected, the normal Google/Chrome saved-card provider is no longer the active provider. Payment autofill suggestions then come from Caregiver Autofill and require the caregiver PIN.
+Android does let the caregiver choose this app as the default Autofill Service. Once selected, the normal Google/Chrome saved-card provider is no longer the active provider. Payment autofill suggestions then come from Senior Spending Guard Autofill and require the caregiver PIN.
 
 ## Recommended Setup
 
 1. Open Senior Spending Guard.
-2. Tap `Choose provider` and select `Caregiver Autofill`.
+2. Tap `Choose provider` and select `Senior Spending Guard Autofill`.
 3. Set a caregiver PIN.
 4. Optional: save a prepaid or low-limit card profile.
 5. Work through the setup assistant.
@@ -72,11 +72,11 @@ Android does let the caregiver choose this app as the default Autofill Service. 
 
 ## Autofill Model
 
-Caregiver Autofill is the most automatic protection this app can offer.
+Senior Spending Guard Autofill is the most automatic protection this app can offer.
 
 When Android sends the app a payment form through the Autofill Framework, the service detects likely card fields. If a card profile exists, Android shows a dataset labeled `Ask caregiver to fill card`. Selecting it opens the PIN screen. A correct PIN returns a one-time dataset for the detected fields.
 
-If no card profile exists, selecting a payment field can still show that Caregiver Autofill is active and route the caregiver back to setup. Because this app is the selected autofill provider, the previous default provider should not offer its normal saved-card suggestions.
+If no card profile exists, selecting a payment field can still show that Senior Spending Guard Autofill is active and route the caregiver back to setup. Because this app is the selected autofill provider, the previous default provider should not offer its normal saved-card suggestions.
 
 The app stores the card profile locally in this prototype. A production version should use stronger storage, clear caregiver consent, and ideally a prepaid or low-limit card only.
 

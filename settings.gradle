@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SeniorPaymentGuard"
+rootProject.name = "SeniorSpendingGuard"
 include ":app"

@@ -1,9 +1,9 @@
-package li.vinkent.seniorpaymentguard;
+package li.vinkent.seniorspendingguard;
 
 import android.app.Application;
 import android.content.Context;
 
-public class SeniorPaymentGuardApp extends Application {
+public class SeniorSpendingGuardApp extends Application {
     private static Context appContext;
 
     @Override

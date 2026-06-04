@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "li.vinkent.seniorpaymentguard"
+    namespace = "li.vinkent.seniorspendingguard"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "li.vinkent.seniorpaymentguard"
+        applicationId = "li.vinkent.seniorspendingguard"
         minSdk = 26
         targetSdk = 35
         versionCode = 1

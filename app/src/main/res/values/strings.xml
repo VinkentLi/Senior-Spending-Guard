@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Senior Spending Guard</string>
-    <string name="autofill_service_label">Caregiver Autofill</string>
+    <string name="autofill_service_label">Senior Spending Guard Autofill</string>
 </resources>

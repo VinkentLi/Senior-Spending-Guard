@@ -1,4 +1,4 @@
-package li.vinkent.seniorpaymentguard;
+package li.vinkent.seniorspendingguard;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -34,14 +34,14 @@ public class AutofillApprovalActivity extends Activity {
         root.setBackgroundColor(Color.rgb(248, 250, 252));
 
         TextView title = new TextView(this);
-        title.setText("Caregiver Autofill");
+        title.setText("Senior Spending Guard Autofill");
         title.setTextColor(Color.rgb(15, 23, 42));
         title.setTextSize(27);
         title.setTypeface(Typeface.DEFAULT_BOLD);
         title.setGravity(Gravity.CENTER);
 
         TextView body = new TextView(this);
-        body.setText("This phone uses Caregiver Autofill instead of the default saved-card provider. Enter the caregiver PIN to fill the approved low-limit card one time.");
+        body.setText("This phone uses Senior Spending Guard Autofill instead of the default saved-card provider. Enter the caregiver PIN to fill the approved low-limit card one time.");
         body.setTextColor(Color.rgb(51, 65, 85));
         body.setTextSize(18);
         body.setGravity(Gravity.CENTER);
@@ -78,10 +78,10 @@ public class AutofillApprovalActivity extends Activity {
             MainActivity.clearPinFailures(this);
 
             ArrayList<android.view.autofill.AutofillId> ids =
-                    getIntent().getParcelableArrayListExtra(PaymentGuardAutofillService.EXTRA_AUTOFILL_IDS);
+                    getIntent().getParcelableArrayListExtra(SeniorSpendingGuardAutofillService.EXTRA_AUTOFILL_IDS);
             ArrayList<String> roles =
-                    getIntent().getStringArrayListExtra(PaymentGuardAutofillService.EXTRA_AUTOFILL_ROLES);
-            Dataset dataset = PaymentGuardAutofillService.buildApprovedDataset(this, ids, roles);
+                    getIntent().getStringArrayListExtra(SeniorSpendingGuardAutofillService.EXTRA_AUTOFILL_ROLES);
+            Dataset dataset = SeniorSpendingGuardAutofillService.buildApprovedDataset(this, ids, roles);
             if (dataset == null) {
                 Toast.makeText(this, "Set up a card profile first.", Toast.LENGTH_LONG).show();
                 setResult(RESULT_CANCELED);

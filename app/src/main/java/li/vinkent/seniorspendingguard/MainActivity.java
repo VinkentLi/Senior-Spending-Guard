@@ -1,4 +1,4 @@
-package li.vinkent.seniorpaymentguard;
+package li.vinkent.seniorspendingguard;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -605,7 +605,7 @@ public class MainActivity extends Activity {
     }
 
     private boolean isAutofillServiceEnabled() {
-        String expected = new ComponentName(this, PaymentGuardAutofillService.class).flattenToString();
+        String expected = new ComponentName(this, SeniorSpendingGuardAutofillService.class).flattenToString();
         String enabledService = Settings.Secure.getString(getContentResolver(), AUTOFILL_SERVICE_SETTING);
         return expected.equalsIgnoreCase(enabledService);
     }
@@ -1040,14 +1040,14 @@ public class MainActivity extends Activity {
                 case "new_pin": return "Nouveau PIN";
                 case "confirm_pin": return "Confirmer le PIN";
                 case "save_pin": return "Enregistrer le PIN";
-                case "autofill_step": return "Activer Caregiver Autofill";
+                case "autofill_step": return "Activer Senior Spending Guard Autofill";
                 case "autofill_step_body": return "Choisissez cette appli comme fournisseur Autofill d'Android.";
                 case "autofill_on": return "Autofill est activé";
                 case "autofill_on_body": return "Le remplissage des paiements passe par le PIN de l'aidant.";
                 case "open_autofill": return "Ouvrir Autofill";
                 case "replace_autofill": return "Changer de fournisseur";
                 case "chrome_autofill_step": return "Activer Autofill dans Chrome";
-                case "chrome_autofill_body": return "Faites utiliser à Chrome Caregiver Autofill, choisi dans Android, au lieu de l'Autofill par défaut de Chrome.";
+                case "chrome_autofill_body": return "Faites utiliser à Chrome Senior Spending Guard Autofill, choisi dans Android, au lieu de l'Autofill par défaut de Chrome.";
                 case "chrome_settings_guide_title": return "1. Ouvrir Services de saisie automatique";
                 case "chrome_settings_guide_body": return "Ouvrez Chrome, touchez le menu en haut à droite, puis Paramètres. Dans Paramètres, choisissez Services de saisie automatique.";
                 case "chrome_options_guide_title": return "2. Choisir Saisie automatique avec un autre service";
@@ -1091,7 +1091,7 @@ public class MainActivity extends Activity {
                 case "enter_expiration": return "Entrez une date future valide au format MM/AA.";
                 case "enter_cvv": return "Entrez un CVV valide de 3 ou 4 chiffres.";
                 case "enter_postal": return "Entrez un code postal valide.";
-                case "autofill_settings_fallback": return "Choisissez Caregiver Autofill dans Passwords and autofill.";
+                case "autofill_settings_fallback": return "Choisissez Senior Spending Guard Autofill dans Passwords and autofill.";
                 case "chrome_fallback": return "Ouvrez les moyens de paiement et désactivez le remplissage des cartes enregistrées.";
                 case "chrome_autofill_steps": return "Chrome > Paramètres > Services de saisie automatique > Saisie automatique avec un autre service. Redémarrez Chrome après le changement.";
                 case "play_steps": return "Photo de profil > Payments & subscriptions > Purchase verification.";
@@ -1137,14 +1137,14 @@ public class MainActivity extends Activity {
                 case "new_pin": return "Novo PIN";
                 case "confirm_pin": return "Confirmar PIN";
                 case "save_pin": return "Salvar PIN";
-                case "autofill_step": return "Ativar Caregiver Autofill";
+                case "autofill_step": return "Ativar Senior Spending Guard Autofill";
                 case "autofill_step_body": return "Escolha este app como provedor de autofill do Android.";
                 case "autofill_on": return "Autofill ativo";
                 case "autofill_on_body": return "O autofill de pagamento passa pelo PIN do cuidador.";
                 case "open_autofill": return "Abrir Autofill";
                 case "replace_autofill": return "Trocar provedor";
                 case "chrome_autofill_step": return "Ativar Autofill no Chrome";
-                case "chrome_autofill_body": return "Faça o Chrome usar Caregiver Autofill, escolhido no Android, em vez do Autofill padrão do Chrome.";
+                case "chrome_autofill_body": return "Faça o Chrome usar Senior Spending Guard Autofill, escolhido no Android, em vez do Autofill padrão do Chrome.";
                 case "chrome_settings_guide_title": return "1. Abrir Preenchimento automático";
                 case "chrome_settings_guide_body": return "Abra o Chrome, toque no menu no canto superior direito e depois em Configurações. Em Configurações, escolha Preenchimento automático.";
                 case "chrome_options_guide_title": return "2. Escolher Preenchimento automático usando outro serviço";
@@ -1188,7 +1188,7 @@ public class MainActivity extends Activity {
                 case "enter_expiration": return "Digite uma validade futura válida como MM/AA.";
                 case "enter_cvv": return "Digite um CVV válido de 3 ou 4 dígitos.";
                 case "enter_postal": return "Digite um CEP ou código postal válido.";
-                case "autofill_settings_fallback": return "Escolha Caregiver Autofill em Passwords and autofill.";
+                case "autofill_settings_fallback": return "Escolha Senior Spending Guard Autofill em Passwords and autofill.";
                 case "chrome_fallback": return "Abra métodos de pagamento e desative o preenchimento de cartões salvos.";
                 case "chrome_autofill_steps": return "Chrome > Configurações > Preenchimento automático > Preenchimento automático usando outro serviço. Reinicie o Chrome após alterar.";
                 case "play_steps": return "Foto do perfil > Payments & subscriptions > Purchase verification.";
@@ -1234,14 +1234,14 @@ public class MainActivity extends Activity {
                 case "new_pin": return "नया PIN";
                 case "confirm_pin": return "PIN पुष्टि";
                 case "save_pin": return "PIN सेव करें";
-                case "autofill_step": return "Caregiver Autofill चालू करें";
+                case "autofill_step": return "Senior Spending Guard Autofill चालू करें";
                 case "autofill_step_body": return "इस ऐप को Android का autofill provider चुनें.";
                 case "autofill_on": return "Autofill चालू है";
                 case "autofill_on_body": return "भुगतान autofill अब देखभालकर्ता PIN से होकर जाएगा.";
                 case "open_autofill": return "Autofill खोलें";
                 case "replace_autofill": return "Provider बदलें";
                 case "chrome_autofill_step": return "Chrome Autofill चालू करें";
-                case "chrome_autofill_body": return "Chrome को Chrome के default Autofill की जगह Android में चुना गया Caregiver Autofill इस्तेमाल करने दें.";
+                case "chrome_autofill_body": return "Chrome को Chrome के default Autofill की जगह Android में चुना गया Senior Spending Guard Autofill इस्तेमाल करने दें.";
                 case "chrome_settings_guide_title": return "1. जानकारी अपने-आप भरने वाली सेवाएं खोलें";
                 case "chrome_settings_guide_body": return "Chrome खोलें, ऊपर दाईं ओर मेन्यू दबाएँ, फिर सेटिंग खोलें. सेटिंग में जानकारी अपने-आप भरने वाली सेवाएं चुनें.";
                 case "chrome_options_guide_title": return "2. जानकारी ऑटोमैटिक भरने की कोई दूसरी सेवा चुनें";
@@ -1285,7 +1285,7 @@ public class MainActivity extends Activity {
                 case "enter_expiration": return "MM/YY में मान्य भविष्य की समाप्ति डालें.";
                 case "enter_cvv": return "3 या 4 अंकों का मान्य CVV डालें.";
                 case "enter_postal": return "मान्य ZIP या postal code डालें.";
-                case "autofill_settings_fallback": return "Passwords and autofill में Caregiver Autofill चुनें.";
+                case "autofill_settings_fallback": return "Passwords and autofill में Senior Spending Guard Autofill चुनें.";
                 case "chrome_fallback": return "Payment methods खोलें और saved-card filling बंद करें.";
                 case "chrome_autofill_steps": return "Chrome > सेटिंग > जानकारी अपने-आप भरने वाली सेवाएं > जानकारी ऑटोमैटिक भरने की कोई दूसरी सेवा. बदलने के बाद Chrome restart करें.";
                 case "play_steps": return "Profile picture > Payments & subscriptions > Purchase verification.";
@@ -1331,14 +1331,14 @@ public class MainActivity extends Activity {
                 case "new_pin": return "PIN جديد";
                 case "confirm_pin": return "تأكيد PIN";
                 case "save_pin": return "حفظ PIN";
-                case "autofill_step": return "تشغيل Caregiver Autofill";
+                case "autofill_step": return "تشغيل Senior Spending Guard Autofill";
                 case "autofill_step_body": return "اختر هذا التطبيق كمزود الملء التلقائي في Android.";
                 case "autofill_on": return "Autofill مفعّل";
                 case "autofill_on_body": return "يمر ملء الدفع التلقائي الآن عبر PIN مقدم الرعاية.";
                 case "open_autofill": return "فتح Autofill";
                 case "replace_autofill": return "تغيير المزود";
                 case "chrome_autofill_step": return "تشغيل Autofill في Chrome";
-                case "chrome_autofill_body": return "اجعل Chrome يستخدم Caregiver Autofill المختار في Android بدلا من Autofill الافتراضي في Chrome.";
+                case "chrome_autofill_body": return "اجعل Chrome يستخدم Senior Spending Guard Autofill المختار في Android بدلا من Autofill الافتراضي في Chrome.";
                 case "chrome_settings_guide_title": return "1. افتح خدمات الملء التلقائي";
                 case "chrome_settings_guide_body": return "افتح Chrome واضغط القائمة في أعلى اليسار ثم الإعدادات. في الإعدادات، اختر خدمات الملء التلقائي.";
                 case "chrome_options_guide_title": return "2. اختر الملء التلقائي باستخدام خدمة أخرى";
@@ -1382,7 +1382,7 @@ public class MainActivity extends Activity {
                 case "enter_expiration": return "أدخل تاريخ انتهاء مستقبلي صالحا بصيغة MM/YY.";
                 case "enter_cvv": return "أدخل CVV صالحا من 3 أو 4 أرقام.";
                 case "enter_postal": return "أدخل رمزا بريديا صالحا.";
-                case "autofill_settings_fallback": return "اختر Caregiver Autofill ضمن Passwords and autofill.";
+                case "autofill_settings_fallback": return "اختر Senior Spending Guard Autofill ضمن Passwords and autofill.";
                 case "chrome_fallback": return "افتح طرق الدفع وأوقف ملء البطاقات المحفوظة.";
                 case "chrome_autofill_steps": return "Chrome > الإعدادات > خدمات الملء التلقائي > الملء التلقائي باستخدام خدمة أخرى. أعد تشغيل Chrome بعد التغيير.";
                 case "play_steps": return "Profile picture > Payments & subscriptions > Purchase verification.";
@@ -1435,7 +1435,7 @@ public class MainActivity extends Activity {
                 case "open_autofill": return "자동 입력 열기";
                 case "replace_autofill": return "제공자 바꾸기";
                 case "chrome_autofill_step": return "Chrome 자동 입력 켜기";
-                case "chrome_autofill_body": return "Chrome 기본 자동 입력 대신 Android에서 선택한 Caregiver Autofill을 사용하게 합니다.";
+                case "chrome_autofill_body": return "Chrome 기본 자동 입력 대신 Android에서 선택한 Senior Spending Guard Autofill을 사용하게 합니다.";
                 case "chrome_settings_guide_title": return "1. 자동 완성 서비스 열기";
                 case "chrome_settings_guide_body": return "Chrome을 열고 오른쪽 위 메뉴를 누른 다음 설정을 여세요. 설정에서 자동 완성 서비스를 선택하세요.";
                 case "chrome_options_guide_title": return "2. 다른 서비스로 자동 완성 선택";
@@ -1479,7 +1479,7 @@ public class MainActivity extends Activity {
                 case "enter_expiration": return "MM/YY 형식의 유효한 미래 만료일을 입력하세요.";
                 case "enter_cvv": return "유효한 3자리 또는 4자리 CVV를 입력하세요.";
                 case "enter_postal": return "유효한 우편번호를 입력하세요.";
-                case "autofill_settings_fallback": return "Passwords and autofill에서 Caregiver Autofill을 선택하세요.";
+                case "autofill_settings_fallback": return "Passwords and autofill에서 Senior Spending Guard Autofill을 선택하세요.";
                 case "chrome_fallback": return "결제 수단을 열고 저장된 카드 입력을 끄세요.";
                 case "chrome_autofill_steps": return "Chrome > 설정 > 자동 완성 서비스 > 다른 서비스로 자동 완성. 변경 후 Chrome을 다시 시작하세요.";
                 case "play_steps": return "프로필 사진 > Payments & subscriptions > Purchase verification.";
@@ -1525,14 +1525,14 @@ public class MainActivity extends Activity {
                 case "new_pin": return "PIN mới";
                 case "confirm_pin": return "Xác nhận PIN";
                 case "save_pin": return "Lưu PIN";
-                case "autofill_step": return "Bật Caregiver Autofill";
+                case "autofill_step": return "Bật Senior Spending Guard Autofill";
                 case "autofill_step_body": return "Chọn ứng dụng này làm nhà cung cấp tự động điền của Android.";
                 case "autofill_on": return "Tự động điền đã bật";
                 case "autofill_on_body": return "Tự động điền thanh toán sẽ đi qua PIN người chăm sóc.";
                 case "open_autofill": return "Mở Tự động điền";
                 case "replace_autofill": return "Đổi nhà cung cấp";
                 case "chrome_autofill_step": return "Bật tự động điền Chrome";
-                case "chrome_autofill_body": return "Cho Chrome dùng Caregiver Autofill đã chọn trong Android thay vì tự động điền mặc định của Chrome.";
+                case "chrome_autofill_body": return "Cho Chrome dùng Senior Spending Guard Autofill đã chọn trong Android thay vì tự động điền mặc định của Chrome.";
                 case "chrome_settings_guide_title": return "1. Mở Dịch vụ tự động điền";
                 case "chrome_settings_guide_body": return "Mở Chrome, chạm menu góc trên bên phải, rồi vào Cài đặt. Trong Cài đặt, chọn Dịch vụ tự động điền.";
                 case "chrome_options_guide_title": return "2. Chọn Tự động điền bằng một dịch vụ khác";
@@ -1576,7 +1576,7 @@ public class MainActivity extends Activity {
                 case "enter_expiration": return "Nhập ngày hết hạn tương lai hợp lệ theo MM/YY.";
                 case "enter_cvv": return "Nhập CVV hợp lệ 3 hoặc 4 chữ số.";
                 case "enter_postal": return "Nhập mã bưu chính hợp lệ.";
-                case "autofill_settings_fallback": return "Chọn Caregiver Autofill trong Passwords and autofill.";
+                case "autofill_settings_fallback": return "Chọn Senior Spending Guard Autofill trong Passwords and autofill.";
                 case "chrome_fallback": return "Mở phương thức thanh toán và tắt điền thẻ đã lưu.";
                 case "chrome_autofill_steps": return "Chrome > Cài đặt > Dịch vụ tự động điền > Tự động điền bằng một dịch vụ khác. Khởi động lại Chrome sau khi đổi.";
                 case "play_steps": return "Ảnh hồ sơ > Payments & subscriptions > Purchase verification.";
@@ -1622,14 +1622,14 @@ public class MainActivity extends Activity {
                 case "new_pin": return "Bagong PIN";
                 case "confirm_pin": return "Kumpirmahin ang PIN";
                 case "save_pin": return "I-save ang PIN";
-                case "autofill_step": return "I-on ang Caregiver Autofill";
+                case "autofill_step": return "I-on ang Senior Spending Guard Autofill";
                 case "autofill_step_body": return "Piliin ang app na ito bilang autofill provider ng Android.";
                 case "autofill_on": return "Naka-on ang Autofill";
                 case "autofill_on_body": return "Dadaan na sa PIN ng tagapag-alaga ang payment autofill.";
                 case "open_autofill": return "Buksan ang Autofill";
                 case "replace_autofill": return "Palitan ang provider";
                 case "chrome_autofill_step": return "I-on ang Chrome Autofill";
-                case "chrome_autofill_body": return "Gawing gamitin ng Chrome ang Caregiver Autofill na pinili sa Android sa halip na default Autofill ng Chrome.";
+                case "chrome_autofill_body": return "Gawing gamitin ng Chrome ang Senior Spending Guard Autofill na pinili sa Android sa halip na default Autofill ng Chrome.";
                 case "chrome_settings_guide_title": return "1. Buksan ang Mga serbisyo ng autofill";
                 case "chrome_settings_guide_body": return "Buksan ang Chrome, tapikin ang menu sa kanang itaas, pagkatapos Settings. Sa Settings, piliin ang Mga serbisyo ng autofill.";
                 case "chrome_options_guide_title": return "2. Piliin ang Autofill gamit ang ibang serbisyo";
@@ -1673,7 +1673,7 @@ public class MainActivity extends Activity {
                 case "enter_expiration": return "Ilagay ang valid na future expiration bilang MM/YY.";
                 case "enter_cvv": return "Ilagay ang valid na 3 o 4 digit na CVV.";
                 case "enter_postal": return "Ilagay ang valid na ZIP o postal code.";
-                case "autofill_settings_fallback": return "Piliin ang Caregiver Autofill sa Passwords and autofill.";
+                case "autofill_settings_fallback": return "Piliin ang Senior Spending Guard Autofill sa Passwords and autofill.";
                 case "chrome_fallback": return "Buksan ang payment methods at i-off ang saved-card filling.";
                 case "chrome_autofill_steps": return "Chrome > Settings > Mga serbisyo ng autofill > Autofill gamit ang ibang serbisyo. I-restart ang Chrome pagkatapos baguhin.";
                 case "play_steps": return "Profile picture > Payments & subscriptions > Purchase verification.";
@@ -1726,7 +1726,7 @@ public class MainActivity extends Activity {
                 case "open_autofill": return "開啟自動填入";
                 case "replace_autofill": return "更換服務";
                 case "chrome_autofill_step": return "開啟 Chrome 自動填入";
-                case "chrome_autofill_body": return "讓 Chrome 使用 Android 中選擇的 Caregiver Autofill，而不是 Chrome 預設的自動填入。";
+                case "chrome_autofill_body": return "讓 Chrome 使用 Android 中選擇的 Senior Spending Guard Autofill，而不是 Chrome 預設的自動填入。";
                 case "chrome_settings_guide_title": return "1. 開啟自動填入服務";
                 case "chrome_settings_guide_body": return "開啟 Chrome，點右上角選單，然後點設定。在設定中選擇自動填入服務。";
                 case "chrome_options_guide_title": return "2. 選擇使用其他自動填入服務";
@@ -1770,7 +1770,7 @@ public class MainActivity extends Activity {
                 case "enter_expiration": return "請輸入有效的未來有效期限，格式 MM/YY。";
                 case "enter_cvv": return "請輸入 3 或 4 位 CVV。";
                 case "enter_postal": return "請輸入有效郵遞區號。";
-                case "autofill_settings_fallback": return "在 Passwords and autofill 中選擇 Caregiver Autofill。";
+                case "autofill_settings_fallback": return "在 Passwords and autofill 中選擇 Senior Spending Guard Autofill。";
                 case "chrome_fallback": return "開啟付款方式並關閉已儲存卡片填入。";
                 case "chrome_autofill_steps": return "Chrome > 設定 > 自動填入服務 > 使用其他自動填入服務。更改後重新啟動 Chrome。";
                 case "play_steps": return "頭像 > Payments & subscriptions > Purchase verification。";
@@ -1823,7 +1823,7 @@ public class MainActivity extends Activity {
                 case "open_autofill": return "打开自动填充设置";
                 case "replace_autofill": return "更换服务";
                 case "chrome_autofill_step": return "开启 Chrome 自动填充";
-                case "chrome_autofill_body": return "让 Chrome 使用 Android 中选择的 Caregiver Autofill，而不是 Chrome 默认的自动填充。";
+                case "chrome_autofill_body": return "让 Chrome 使用 Android 中选择的 Senior Spending Guard Autofill，而不是 Chrome 默认的自动填充。";
                 case "chrome_settings_guide_title": return "1. 打开自动填充服务";
                 case "chrome_settings_guide_body": return "打开 Chrome，点右上角菜单，然后点设置。在设置中选择自动填充服务。";
                 case "chrome_options_guide_title": return "2. 选择使用其他自动填充服务";
@@ -1867,7 +1867,7 @@ public class MainActivity extends Activity {
                 case "enter_expiration": return "请输入有效的未来有效期，格式 MM/YY。";
                 case "enter_cvv": return "请输入 3 或 4 位 CVV。";
                 case "enter_postal": return "请输入有效邮编。";
-                case "autofill_settings_fallback": return "在密码和自动填充中选择 Caregiver Autofill。";
+                case "autofill_settings_fallback": return "在密码和自动填充中选择 Senior Spending Guard Autofill。";
                 case "chrome_fallback": return "打开付款方式并关闭已保存银行卡填充。";
                 case "chrome_autofill_steps": return "Chrome > 设置 > 自动填充服务 > 使用其他自动填充服务。更改后重启 Chrome。";
                 case "play_steps": return "头像 > Payments & subscriptions > Purchase verification。";
@@ -1920,7 +1920,7 @@ public class MainActivity extends Activity {
                 case "open_autofill": return "Abrir Autofill";
                 case "replace_autofill": return "Cambiar proveedor";
                 case "chrome_autofill_step": return "Activar Chrome";
-                case "chrome_autofill_body": return "Haz que Chrome use Caregiver Autofill, el proveedor elegido en Android, en lugar del Autofill predeterminado de Chrome.";
+                case "chrome_autofill_body": return "Haz que Chrome use Senior Spending Guard Autofill, el proveedor elegido en Android, en lugar del Autofill predeterminado de Chrome.";
                 case "chrome_settings_guide_title": return "1. Abrir Servicios de autocompletado";
                 case "chrome_settings_guide_body": return "Abre Chrome, toca el menu de arriba a la derecha y entra a Configuracion. En Configuracion, elige Servicios de autocompletado.";
                 case "chrome_options_guide_title": return "2. Elegir Autocompletar con otro servicio";
@@ -1992,14 +1992,14 @@ public class MainActivity extends Activity {
             case "new_pin": return "New PIN";
             case "confirm_pin": return "Confirm PIN";
             case "save_pin": return "Save PIN";
-            case "autofill_step": return "Turn on Caregiver Autofill";
+            case "autofill_step": return "Turn on Senior Spending Guard Autofill";
             case "autofill_step_body": return "Choose this app as Android's autofill provider.";
             case "autofill_on": return "Autofill is on";
             case "autofill_on_body": return "Payment autofill now goes through the caregiver PIN.";
             case "open_autofill": return "Open Autofill";
             case "replace_autofill": return "Replace provider";
             case "chrome_autofill_step": return "Turn on Chrome Autofill";
-            case "chrome_autofill_body": return "Make Chrome use Caregiver Autofill, the provider selected in Android, instead of Chrome's default Autofill.";
+            case "chrome_autofill_body": return "Make Chrome use Senior Spending Guard Autofill, the provider selected in Android, instead of Chrome's default Autofill.";
             case "chrome_settings_guide_title": return "1. Open Chrome Autofill services";
             case "chrome_settings_guide_body": return "Open Chrome, tap the top-right menu, then Settings. In Settings, choose Autofill services.";
             case "chrome_options_guide_title": return "2. Choose Autofill using another service";
@@ -2043,7 +2043,7 @@ public class MainActivity extends Activity {
             case "enter_expiration": return "Enter a valid future expiration as MM/YY.";
             case "enter_cvv": return "Enter a valid 3 or 4 digit CVV.";
             case "enter_postal": return "Enter a valid ZIP or postal code.";
-            case "autofill_settings_fallback": return "Choose Caregiver Autofill under Passwords and autofill.";
+            case "autofill_settings_fallback": return "Choose Senior Spending Guard Autofill under Passwords and autofill.";
             case "chrome_fallback": return "Open payment methods and turn off saved-card filling.";
             case "chrome_autofill_steps": return "Chrome > Settings > Autofill services > Autofill using another service. Restart Chrome after changing it.";
             case "play_steps": return "Profile picture > Payments & subscriptions > Purchase verification.";

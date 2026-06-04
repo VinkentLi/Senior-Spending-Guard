@@ -1,4 +1,4 @@
-package li.vinkent.seniorpaymentguard;
+package li.vinkent.seniorspendingguard;
 
 import android.app.PendingIntent;
 import android.app.assist.AssistStructure;
@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class PaymentGuardAutofillService extends AutofillService {
-    private static final String TAG = "CaregiverAutofill";
+public class SeniorSpendingGuardAutofillService extends AutofillService {
+    private static final String TAG = "SeniorSpendingGuardAutofill";
     private static final int MAX_FIELDS = 16;
     static final String EXTRA_AUTOFILL_IDS = "autofill_ids";
     static final String EXTRA_AUTOFILL_ROLES = "autofill_roles";
@@ -126,7 +126,7 @@ public class PaymentGuardAutofillService extends AutofillService {
             return null;
         }
 
-        RemoteViews presentation = presentation(context, "Caregiver card approved");
+        RemoteViews presentation = presentation(context, "Senior Spending Guard card approved");
         Dataset.Builder dataset = new Dataset.Builder(presentation);
         for (Field field : fields) {
             String value = valueForRole(field.role, context);
@@ -165,7 +165,7 @@ public class PaymentGuardAutofillService extends AutofillService {
         );
 
         return new FillResponse.Builder()
-                .setAuthentication(autofillIds(fields), pendingIntent.getIntentSender(), presentation("Caregiver Autofill active: set up card"))
+                .setAuthentication(autofillIds(fields), pendingIntent.getIntentSender(), presentation("Senior Spending Guard Autofill active: set up card"))
                 .build();
     }
 

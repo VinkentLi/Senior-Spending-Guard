@@ -1,4 +1,4 @@
-package li.vinkent.seniorpaymentguard;
+package li.vinkent.seniorspendingguard;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -212,7 +212,7 @@ final class GuardStore {
     }
 
     private static SecretKey getOrCreateFallbackKey() {
-        SharedPreferences prefs = SeniorPaymentGuardApp.context().getSharedPreferences(MainActivity.PREFS, Context.MODE_PRIVATE);
+        SharedPreferences prefs = SeniorSpendingGuardApp.context().getSharedPreferences(MainActivity.PREFS, Context.MODE_PRIVATE);
         String encoded = prefs.getString(FALLBACK_KEY, "");
         if (TextUtils.isEmpty(encoded)) {
             byte[] key = new byte[32];
