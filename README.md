@@ -70,6 +70,29 @@ Android does let the caregiver choose this app as the default Autofill Service. 
 8. Remove saved payment methods from high-risk merchant apps.
 9. Turn on bank alerts for every charge and declined transaction.
 
+## Chrome Autofill Test Page
+
+The app's `Test in Chrome` button opens:
+
+```text
+https://vinkent.li/test-chrome-autofill/
+```
+
+Host the files in `payment-demos` at `https://vinkent.li/test-chrome-autofill/` before relying on that button from a real phone. The old emulator-only URL, `http://10.0.2.2:8765/`, is still useful for local emulator testing, but it is not a good default for real devices.
+
+Use only fake, prepaid, or low-limit test card information on this page. It should never collect or submit real payment data.
+
+## Merchant App Payment Cleanup
+
+The app includes a caregiver checklist for removing saved cards from common merchant, delivery, ride, and wallet apps.
+
+Useful official references:
+
+- Walmart: Account > Settings gear > Wallet is the documented path for adding payment methods, and the same Wallet area is where caregivers should check saved payment methods.
+- Target: My Target and Wallet/payment settings are the areas to review for saved payment cards and Target Circle Card.
+- Uber and Lyft: review Wallet/Payment methods; some methods cannot be removed until defaults, balances, or linked services are changed.
+- PayPal and Venmo: removing a card can be blocked by pending transactions, backup payment methods, automatic payments, or app-specific preferred payment settings.
+
 ## Autofill Model
 
 Senior Spending Guard Autofill is the most automatic protection this app can offer.

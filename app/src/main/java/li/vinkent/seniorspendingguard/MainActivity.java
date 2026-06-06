@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
     private static final String AUTOFILL_SERVICE_SETTING = "autofill_service";
     private static final String CHROME_PACKAGE = "com.android.chrome";
     private static final String CHROME_MAIN_ACTIVITY = "com.google.android.apps.chrome.Main";
-    private static final String CHROME_TEST_URL = "http://10.0.2.2:8765/card-autofill.html";
+    private static final String CHROME_TEST_URL = "https://vinkent.li/test-chrome-autofill/";
     private static final String PLAY_STORE_PACKAGE = "com.android.vending";
     private static final String[] LANGUAGE_CODES = {"en", "es", "zh", "zh-TW", "ko", "vi", "tl", "fr", "pt", "hi", "ar"};
     private static final String[] LANGUAGE_LABELS = {
@@ -239,18 +239,13 @@ public class MainActivity extends Activity {
 
     private void addChromeAutofillStep(LinearLayout root) {
         root.addView(noticeCard(t("chrome_autofill_step"), t("chrome_autofill_body"), Color.rgb(30, 64, 175)), matchWrap());
-        root.addView(screenshotGuide(
-                t("chrome_settings_guide_title"),
-                t("chrome_settings_guide_body"),
-                chromeSettingsScreenshotRes()
-        ), matchWrap());
 
         Button settings = primaryButton(t("open_chrome_autofill_options"));
         settings.setOnClickListener(v -> openChromeSettingsWithSteps());
         root.addView(settings, matchWrap());
 
         root.addView(screenshotGuide(
-                t("chrome_options_guide_title"),
+                withoutStepNumber(t("chrome_options_guide_title")),
                 t("chrome_options_guide_body"),
                 chromeAutofillOptionsScreenshotRes()
         ), matchWrap());
@@ -305,6 +300,19 @@ public class MainActivity extends Activity {
         play.setOnClickListener(v -> openGooglePlayPurchaseSettings());
         root.addView(play, matchWrap());
         root.addView(body(t("merchant_apps_hint")), matchWrap());
+        addMerchantAppGuide(root);
+    }
+
+    private void addMerchantAppGuide(LinearLayout root) {
+        addSectionTitle(root, t("merchant_guide_title"));
+        root.addView(noticeCard(t("merchant_guide_general_title"), t("merchant_guide_general_body"), Color.rgb(30, 64, 175)), matchWrap());
+        root.addView(noticeCard(t("merchant_guide_amazon_title"), t("merchant_guide_amazon_body"), Color.rgb(51, 65, 85)), matchWrap());
+        root.addView(noticeCard(t("merchant_guide_walmart_title"), t("merchant_guide_walmart_body"), Color.rgb(51, 65, 85)), matchWrap());
+        root.addView(noticeCard(t("merchant_guide_target_title"), t("merchant_guide_target_body"), Color.rgb(51, 65, 85)), matchWrap());
+        root.addView(noticeCard(t("merchant_guide_delivery_title"), t("merchant_guide_delivery_body"), Color.rgb(51, 65, 85)), matchWrap());
+        root.addView(noticeCard(t("merchant_guide_rides_title"), t("merchant_guide_rides_body"), Color.rgb(51, 65, 85)), matchWrap());
+        root.addView(noticeCard(t("merchant_guide_money_title"), t("merchant_guide_money_body"), Color.rgb(51, 65, 85)), matchWrap());
+        root.addView(noticeCard(t("merchant_guide_stuck_title"), t("merchant_guide_stuck_body"), Color.rgb(185, 28, 28)), matchWrap());
     }
 
     private void addFinishStep(LinearLayout root) {
@@ -389,22 +397,6 @@ public class MainActivity extends Activity {
             }
         }
         return 0;
-    }
-
-    private int chromeSettingsScreenshotRes() {
-        switch (prefs().getString(PREF_LANGUAGE, "en")) {
-            case "es": return R.drawable.chrome_settings_autofill_options_es;
-            case "zh": return R.drawable.chrome_settings_autofill_options_zh;
-            case "zh-TW": return R.drawable.chrome_settings_autofill_options_zh_tw;
-            case "ko": return R.drawable.chrome_settings_autofill_options_ko;
-            case "vi": return R.drawable.chrome_settings_autofill_options_vi;
-            case "tl": return R.drawable.chrome_settings_autofill_options_tl;
-            case "fr": return R.drawable.chrome_settings_autofill_options_fr;
-            case "pt": return R.drawable.chrome_settings_autofill_options_pt;
-            case "hi": return R.drawable.chrome_settings_autofill_options_hi;
-            case "ar": return R.drawable.chrome_settings_autofill_options_ar;
-            default: return R.drawable.chrome_settings_autofill_options_en;
-        }
     }
 
     private int chromeAutofillOptionsScreenshotRes() {
@@ -996,11 +988,282 @@ public class MainActivity extends Activity {
         return Math.round(value * getResources().getDisplayMetrics().density);
     }
 
+    private String withoutStepNumber(String text) {
+        if (text == null) {
+            return "";
+        }
+        return text.replaceFirst("^\\s*[0-9]+\\.\\s*", "");
+    }
+
     private void toast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
+    private String merchantGuideText(String key) {
+        if (!key.startsWith("merchant_guide_")) {
+            return null;
+        }
+        String language = prefs().getString(PREF_LANGUAGE, "en");
+        switch (language) {
+            case "fr":
+                return merchantGuideValue(key,
+                        "Retirer les cartes enregistrées des applis",
+                        "Règle générale",
+                        "Ouvrez chaque appli avec l'aidant présent. Allez dans Compte ou Profil, puis Wallet, Portefeuille ou Moyens de paiement. Retirez chaque carte enregistrée, puis vérifiez Abonnements, Adhésion, Paiement automatique, Pass ou Plus, car ces services peuvent garder un moyen de paiement par défaut séparé.",
+                        "Amazon",
+                        "Ouvrez Amazon > icône de profil ou menu > Votre compte > Vos paiements ou Wallet. Touchez chaque carte, puis Modifier ou Retirer du portefeuille. Vérifiez aussi Prime, Subscribe & Save, abonnements numériques et réglages 1-Click/adresse par défaut.",
+                        "Walmart",
+                        "Ouvrez Walmart > Account > icône d'engrenage Settings > Wallet. Retirez les cartes ou moyens de paiement bancaires enregistrés. Si une carte ne peut pas être retirée, vérifiez d'abord Walmart+, les abonnements, la pharmacie ou les commandes en attente.",
+                        "Target",
+                        "Ouvrez Target > My Target > Settings ou Profile > Payment cards ou Wallet. Retirez les cartes enregistrées. Vérifiez aussi Target Circle Card, le paiement par code-barres Wallet, les abonnements, registres et réglages de livraison le jour même.",
+                        "DoorDash, Uber Eats, Instacart",
+                        "Ouvrez Account ou Profile > Payment ou Payment methods. Touchez la carte, balayez vers la gauche ou utilisez Edit/Delete si disponible. Vérifiez aussi DashPass, Instacart+, adhésions, solde de carte-cadeau, PayPal, Venmo, Google Pay et moyens de paiement de secours.",
+                        "Uber et Lyft",
+                        "Ouvrez Account ou Menu > Wallet, Payment ou Payment methods. Sélectionnez chaque carte et choisissez Remove ou Delete. Si le retrait est bloqué, changez d'abord le paiement par défaut, le profil professionnel, Lyft Cash, Uber Cash, Uber One ou le compte famille/entreprise.",
+                        "PayPal, Venmo, Cash App, Google Wallet",
+                        "Ouvrez l'appli d'argent ou de portefeuille et vérifiez Moyens de paiement, Cartes, Banques, applis liées, paiements automatiques, abonnements ou marchands autorisés. Retirer une carte d'une appli d'achat ne retire pas toujours une autorisation PayPal, Venmo, Cash App ou Google Pay.",
+                        "Si une appli refuse de retirer la carte",
+                        "Cherchez une commande active, adhésion, abonnement, solde impayé, profil famille/entreprise ou moyen de paiement de secours requis. Annulez le service, changez son paiement par défaut vers une carte plus sûre à faible limite ou contactez le support officiel de l'appli. Vérifiez ensuite que les alertes sont activées dans l'appli bancaire ou carte.");
+            case "pt":
+                return merchantGuideValue(key,
+                        "Remover cartões salvos dos apps",
+                        "Regra geral",
+                        "Abra cada app com o cuidador presente. Vá para Conta ou Perfil, depois Wallet/Carteira ou Métodos de pagamento. Remova todos os cartões salvos e confira Assinaturas, Associação, Pagamento automático, Pass ou Plus, pois eles podem manter um pagamento padrão separado.",
+                        "Amazon",
+                        "Abra Amazon > ícone de perfil ou menu > Sua conta > Seus pagamentos ou Wallet. Toque em cada cartão e escolha Editar ou Remover da carteira. Confira também Prime, Subscribe & Save, assinaturas digitais e configurações de 1-Click/endereço padrão.",
+                        "Walmart",
+                        "Abra Walmart > Account > engrenagem Settings > Wallet. Remova cartões ou pagamentos bancários salvos. Se um cartão não puder ser removido, confira primeiro Walmart+, assinaturas, farmácia ou pedidos pendentes.",
+                        "Target",
+                        "Abra Target > My Target > Settings ou Profile > Payment cards ou Wallet. Remova cartões salvos. Confira também Target Circle Card, pagamento por código de barras no Wallet, assinaturas, listas e entrega no mesmo dia.",
+                        "DoorDash, Uber Eats, Instacart",
+                        "Abra Account ou Profile > Payment ou Payment methods. Toque no cartão, deslize para a esquerda ou use Edit/Delete se aparecer. Confira também DashPass, Instacart+, assinaturas, saldo de vale-presente, PayPal, Venmo, Google Pay e pagamentos de backup.",
+                        "Uber e Lyft",
+                        "Abra Account ou Menu > Wallet, Payment ou Payment methods. Selecione cada cartão e escolha Remove ou Delete. Se a remoção for bloqueada, mude primeiro o pagamento padrão, perfil comercial, Lyft Cash, Uber Cash, Uber One ou conta família/empresa.",
+                        "PayPal, Venmo, Cash App, Google Wallet",
+                        "Abra o app de dinheiro ou carteira e revise Métodos de pagamento, Cartões, Bancos, apps vinculados, pagamentos automáticos, assinaturas ou comerciantes autorizados. Remover um cartão de um app de compras pode não remover uma autorização do PayPal, Venmo, Cash App ou Google Pay.",
+                        "Se um app não deixar remover o cartão",
+                        "Procure pedido ativo, assinatura, associação, saldo pendente, perfil família/empresa ou pagamento de backup obrigatório. Cancele o serviço, mude o padrão para um cartão mais seguro de baixo limite ou contate o suporte oficial do app. Depois confirme que os alertas estão ligados no app do banco/cartão.");
+            case "hi":
+                return merchantGuideValue(key,
+                        "ऐप्स से सेव कार्ड हटाएँ",
+                        "सामान्य नियम",
+                        "हर ऐप को caregiver के साथ खोलें. Account या Profile में जाएँ, फिर Wallet या Payment methods खोलें. हर सेव कार्ड हटाएँ, फिर Subscriptions, Membership, Autopay, Pass या Plus plans भी देखें क्योंकि उनमें अलग default payment method रह सकता है.",
+                        "Amazon",
+                        "Amazon खोलें > profile icon या menu > Your Account > Your Payments या Wallet. हर कार्ड पर टैप करें, फिर Edit या Remove from wallet चुनें. Prime, Subscribe & Save, digital subscriptions और 1-Click/default address settings भी देखें.",
+                        "Walmart",
+                        "Walmart खोलें > Account > Settings gear > Wallet. सेव कार्ड या bank payment methods हटाएँ. अगर कार्ड नहीं हटता, तो पहले Walmart+, subscriptions, pharmacy या pending orders देखें.",
+                        "Target",
+                        "Target खोलें > My Target > Settings या Profile > Payment cards या Wallet. सेव कार्ड हटाएँ. Target Circle Card, Wallet barcode payment, subscriptions, registries और same-day delivery settings भी देखें.",
+                        "DoorDash, Uber Eats, Instacart",
+                        "Account या Profile > Payment या Payment methods खोलें. कार्ड पर टैप करें, left swipe करें, या Edit/Delete दिखे तो उसे चुनें. DashPass, Instacart+, memberships, gift card balance, PayPal, Venmo, Google Pay और backup payment methods भी देखें.",
+                        "Uber और Lyft",
+                        "Account या Menu > Wallet, Payment या Payment methods खोलें. हर कार्ड चुनें और Remove या Delete दबाएँ. अगर हटाना block हो, तो पहले default ride payment, business profile, Lyft Cash, Uber Cash, Uber One या family/business account बदलें.",
+                        "PayPal, Venmo, Cash App, Google Wallet",
+                        "Money या wallet app खोलें और Payment methods, Cards, Banks, Linked apps, Automatic payments, Subscriptions या Authorized merchants देखें. Shopping app से कार्ड हटाने से PayPal, Venmo, Cash App या Google Pay authorization हमेशा नहीं हटता.",
+                        "अगर ऐप कार्ड हटाने नहीं देता",
+                        "Active order, membership, subscription, unpaid balance, family/business profile या required backup payment method देखें. Service cancel करें, default payment को safer low-limit card पर बदलें, या ऐप के official support से संपर्क करें. फिर bank/card app में alerts on हैं यह verify करें.");
+            case "ar":
+                return merchantGuideValue(key,
+                        "إزالة البطاقات المحفوظة من التطبيقات",
+                        "قاعدة عامة",
+                        "افتح كل تطبيق بوجود مقدم الرعاية. انتقل إلى الحساب أو الملف الشخصي، ثم Wallet أو Payment methods. احذف كل بطاقة محفوظة، ثم افحص الاشتراكات والعضويات والدفع التلقائي وPass أو Plus لأنها قد تحتفظ بطريقة دفع افتراضية منفصلة.",
+                        "Amazon",
+                        "افتح Amazon > أيقونة الملف الشخصي أو القائمة > Your Account > Your Payments أو Wallet. اضغط كل بطاقة ثم اختر Edit أو Remove from wallet. افحص أيضا Prime وSubscribe & Save والاشتراكات الرقمية وإعدادات 1-Click/العنوان الافتراضي.",
+                        "Walmart",
+                        "افتح Walmart > Account > ترس Settings > Wallet. احذف البطاقات أو طرق الدفع البنكية المحفوظة. إذا تعذر حذف بطاقة، افحص أولا Walmart+ أو الاشتراكات أو الصيدلية أو الطلبات المعلقة.",
+                        "Target",
+                        "افتح Target > My Target > Settings أو Profile > Payment cards أو Wallet. احذف البطاقات المحفوظة. افحص أيضا Target Circle Card والدفع بباركود Wallet والاشتراكات والسجلات وإعدادات التوصيل في نفس اليوم.",
+                        "DoorDash, Uber Eats, Instacart",
+                        "افتح Account أو Profile > Payment أو Payment methods. اضغط البطاقة، أو اسحب لليسار، أو استخدم Edit/Delete إن ظهر. افحص أيضا DashPass وInstacart+ والعضويات ورصيد بطاقات الهدايا وPayPal وVenmo وGoogle Pay وطرق الدفع الاحتياطية.",
+                        "Uber و Lyft",
+                        "افتح Account أو Menu > Wallet أو Payment أو Payment methods. اختر كل بطاقة ثم Remove أو Delete. إذا كان الحذف محظورا، غيّر أولا الدفع الافتراضي للرحلات أو ملف العمل أو Lyft Cash أو Uber Cash أو Uber One أو حساب العائلة/الشركة.",
+                        "PayPal, Venmo, Cash App, Google Wallet",
+                        "افتح تطبيق المال أو المحفظة وراجع Payment methods وCards وBanks والتطبيقات المرتبطة والمدفوعات التلقائية والاشتراكات أو التجار المصرح لهم. حذف بطاقة من تطبيق تسوق قد لا يحذف تفويض PayPal أو Venmo أو Cash App أو Google Pay.",
+                        "إذا رفض التطبيق حذف البطاقة",
+                        "ابحث عن طلب نشط أو عضوية أو اشتراك أو رصيد غير مدفوع أو ملف عائلة/شركة أو طريقة دفع احتياطية مطلوبة. ألغ الخدمة، أو غيّر الدفع الافتراضي إلى بطاقة أكثر أمانا بحد منخفض، أو تواصل مع الدعم الرسمي للتطبيق. ثم تحقق من تفعيل تنبيهات تطبيق البنك/البطاقة.");
+            case "ko":
+                return merchantGuideValue(key,
+                        "앱에서 저장된 카드 제거",
+                        "기본 규칙",
+                        "보호자와 함께 각 앱을 여세요. Account 또는 Profile로 간 뒤 Wallet 또는 Payment methods를 찾습니다. 저장된 카드를 모두 제거하고 Subscriptions, Membership, Autopay, Pass, Plus 요금제도 확인하세요. 이런 항목에는 별도 기본 결제수단이 남아 있을 수 있습니다.",
+                        "Amazon",
+                        "Amazon > 프로필 아이콘 또는 메뉴 > Your Account > Your Payments 또는 Wallet을 여세요. 각 카드를 누른 뒤 Edit 또는 Remove from wallet을 선택하세요. Prime, Subscribe & Save, 디지털 구독, 1-Click/기본 주소 설정도 확인하세요.",
+                        "Walmart",
+                        "Walmart > Account > Settings 톱니바퀴 > Wallet을 여세요. 저장된 카드나 은행 결제수단을 제거하세요. 카드 제거가 막히면 Walmart+, 구독, 약국, 대기 중인 주문을 먼저 확인하세요.",
+                        "Target",
+                        "Target > My Target > Settings 또는 Profile > Payment cards 또는 Wallet을 여세요. 저장된 카드를 제거하세요. Target Circle Card, Wallet 바코드 결제, 구독, 레지스트리, 당일 배송 설정도 확인하세요.",
+                        "DoorDash, Uber Eats, Instacart",
+                        "Account 또는 Profile > Payment 또는 Payment methods를 여세요. 카드를 누르거나 왼쪽으로 밀거나 Edit/Delete가 보이면 사용하세요. DashPass, Instacart+, 멤버십, 기프트 카드 잔액, PayPal, Venmo, Google Pay, 백업 결제수단도 확인하세요.",
+                        "Uber 및 Lyft",
+                        "Account 또는 Menu > Wallet, Payment 또는 Payment methods를 여세요. 각 카드를 선택하고 Remove 또는 Delete를 누르세요. 제거가 막히면 기본 승차 결제, 비즈니스 프로필, Lyft Cash, Uber Cash, Uber One, 가족/비즈니스 계정을 먼저 바꾸세요.",
+                        "PayPal, Venmo, Cash App, Google Wallet",
+                        "금융/지갑 앱을 열고 Payment methods, Cards, Banks, Linked apps, Automatic payments, Subscriptions, Authorized merchants를 확인하세요. 쇼핑 앱에서 카드를 제거해도 PayPal, Venmo, Cash App, Google Pay 승인이 남을 수 있습니다.",
+                        "앱에서 카드 제거를 허용하지 않을 때",
+                        "진행 중인 주문, 멤버십, 구독, 미결제 잔액, 가족/비즈니스 프로필, 필수 백업 결제수단을 확인하세요. 서비스를 취소하거나 기본 결제를 더 안전한 저한도 카드로 바꾸거나 공식 지원에 문의하세요. 그 뒤 은행/카드 앱 알림이 켜져 있는지 확인하세요.");
+            case "vi":
+                return merchantGuideValue(key,
+                        "Gỡ thẻ đã lưu khỏi ứng dụng",
+                        "Quy tắc chung",
+                        "Mở từng ứng dụng khi có người chăm sóc. Vào Account hoặc Profile, rồi Wallet hoặc Payment methods. Gỡ mọi thẻ đã lưu, sau đó kiểm tra Subscriptions, Membership, Autopay, Pass hoặc Plus vì chúng có thể giữ phương thức thanh toán mặc định riêng.",
+                        "Amazon",
+                        "Mở Amazon > biểu tượng hồ sơ hoặc menu > Your Account > Your Payments hoặc Wallet. Chạm từng thẻ, rồi chọn Edit hoặc Remove from wallet. Kiểm tra thêm Prime, Subscribe & Save, đăng ký số và cài đặt 1-Click/địa chỉ mặc định.",
+                        "Walmart",
+                        "Mở Walmart > Account > biểu tượng bánh răng Settings > Wallet. Gỡ thẻ hoặc phương thức thanh toán ngân hàng đã lưu. Nếu không gỡ được thẻ, hãy kiểm tra Walmart+, đăng ký, nhà thuốc hoặc đơn hàng đang chờ trước.",
+                        "Target",
+                        "Mở Target > My Target > Settings hoặc Profile > Payment cards hoặc Wallet. Gỡ thẻ đã lưu. Kiểm tra thêm Target Circle Card, thanh toán bằng mã vạch Wallet, đăng ký, registry và cài đặt giao hàng trong ngày.",
+                        "DoorDash, Uber Eats, Instacart",
+                        "Mở Account hoặc Profile > Payment hoặc Payment methods. Chạm thẻ, vuốt trái, hoặc dùng Edit/Delete nếu có. Kiểm tra thêm DashPass, Instacart+, membership, số dư thẻ quà tặng, PayPal, Venmo, Google Pay và phương thức thanh toán dự phòng.",
+                        "Uber và Lyft",
+                        "Mở Account hoặc Menu > Wallet, Payment hoặc Payment methods. Chọn từng thẻ rồi chọn Remove hoặc Delete. Nếu bị chặn, hãy đổi thanh toán mặc định, hồ sơ công việc, Lyft Cash, Uber Cash, Uber One hoặc tài khoản gia đình/doanh nghiệp trước.",
+                        "PayPal, Venmo, Cash App, Google Wallet",
+                        "Mở ứng dụng tiền hoặc ví và xem Payment methods, Cards, Banks, Linked apps, Automatic payments, Subscriptions hoặc Authorized merchants. Gỡ thẻ khỏi ứng dụng mua sắm có thể không gỡ quyền thanh toán PayPal, Venmo, Cash App hoặc Google Pay.",
+                        "Nếu ứng dụng không cho gỡ thẻ",
+                        "Tìm đơn hàng đang hoạt động, membership, đăng ký, số dư chưa trả, hồ sơ gia đình/doanh nghiệp hoặc phương thức thanh toán dự phòng bắt buộc. Hủy dịch vụ, đổi mặc định sang thẻ an toàn hơn có hạn mức thấp, hoặc liên hệ hỗ trợ chính thức của ứng dụng. Sau đó xác nhận cảnh báo trong app ngân hàng/thẻ đã bật.");
+            case "tl":
+                return merchantGuideValue(key,
+                        "Alisin ang naka-save na cards sa apps",
+                        "Pangkalahatang tuntunin",
+                        "Buksan ang bawat app kasama ang tagapag-alaga. Pumunta sa Account o Profile, tapos Wallet o Payment methods. Alisin ang lahat ng naka-save na card, tapos tingnan ang Subscriptions, Membership, Autopay, Pass, o Plus plans dahil maaaring may hiwalay silang default payment method.",
+                        "Amazon",
+                        "Buksan ang Amazon > profile icon o menu > Your Account > Your Payments o Wallet. Tapikin ang bawat card, tapos Edit o Remove from wallet. Tingnan din ang Prime, Subscribe & Save, digital subscriptions, at 1-Click/default address settings.",
+                        "Walmart",
+                        "Buksan ang Walmart > Account > Settings gear > Wallet. Alisin ang naka-save na cards o bank payment methods. Kung hindi maalis ang card, tingnan muna ang Walmart+, subscriptions, pharmacy, o pending orders.",
+                        "Target",
+                        "Buksan ang Target > My Target > Settings o Profile > Payment cards o Wallet. Alisin ang naka-save na cards. Tingnan din ang Target Circle Card, Wallet barcode payment, subscriptions, registries, at same-day delivery settings.",
+                        "DoorDash, Uber Eats, Instacart",
+                        "Buksan ang Account o Profile > Payment o Payment methods. Tapikin ang card, i-swipe pakaliwa, o gamitin ang Edit/Delete kung meron. Tingnan din ang DashPass, Instacart+, memberships, gift card balance, PayPal, Venmo, Google Pay, at backup payment methods.",
+                        "Uber at Lyft",
+                        "Buksan ang Account o Menu > Wallet, Payment, o Payment methods. Piliin ang bawat card at Remove o Delete. Kung naka-block ang pagtanggal, palitan muna ang default ride payment, business profile, Lyft Cash, Uber Cash, Uber One, o family/business account.",
+                        "PayPal, Venmo, Cash App, Google Wallet",
+                        "Buksan ang money o wallet app at tingnan ang Payment methods, Cards, Banks, Linked apps, Automatic payments, Subscriptions, o Authorized merchants. Ang pagtanggal ng card sa shopping app ay maaaring hindi magtanggal ng PayPal, Venmo, Cash App, o Google Pay authorization.",
+                        "Kung ayaw ipatanggal ng app ang card",
+                        "Hanapin kung may active order, membership, subscription, unpaid balance, family/business profile, o required backup payment method. Kanselahin ang service, palitan ang default payment sa mas ligtas na low-limit card, o kontakin ang official support ng app. Pagkatapos, siguraduhing naka-on ang alerts sa bank/card app.");
+            case "zh-TW":
+                return merchantGuideValue(key,
+                        "從應用程式移除已儲存卡片",
+                        "一般規則",
+                        "請照護者在場時逐一開啟每個應用程式。進入「帳戶」或「個人資料」，再找 Wallet、錢包或付款方式。移除所有已儲存卡片，接著檢查訂閱、會員、自動付款、Pass 或 Plus 方案，因為它們可能保留另一個預設付款方式。",
+                        "Amazon",
+                        "開啟 Amazon > 個人資料圖示或選單 > Your Account > Your Payments 或 Wallet。點選每張卡片，然後選 Edit 或 Remove from wallet。也檢查 Prime、Subscribe & Save、數位訂閱和 1-Click/預設地址設定。",
+                        "Walmart",
+                        "開啟 Walmart > Account > Settings 齒輪 > Wallet。移除已儲存卡片或銀行付款方式。如果無法移除卡片，請先檢查 Walmart+、訂閱、藥局或待處理訂單。",
+                        "Target",
+                        "開啟 Target > My Target > Settings 或 Profile > Payment cards 或 Wallet。移除已儲存卡片。也檢查 Target Circle Card、Wallet 條碼付款、訂閱、登記清單和當日配送設定。",
+                        "DoorDash, Uber Eats, Instacart",
+                        "開啟 Account 或 Profile > Payment 或 Payment methods。點選卡片、向左滑動，或使用 Edit/Delete。也檢查 DashPass、Instacart+、會員、禮品卡餘額、PayPal、Venmo、Google Pay 和備用付款方式。",
+                        "Uber 和 Lyft",
+                        "開啟 Account 或 Menu > Wallet、Payment 或 Payment methods。選擇每張卡片並點 Remove 或 Delete。如果無法移除，請先更改預設叫車付款、商務個人資料、Lyft Cash、Uber Cash、Uber One 或家庭/商務帳戶。",
+                        "PayPal, Venmo, Cash App, Google Wallet",
+                        "開啟金錢或錢包應用程式，檢查 Payment methods、Cards、Banks、Linked apps、Automatic payments、Subscriptions 或 Authorized merchants。從購物 app 移除卡片不一定會移除 PayPal、Venmo、Cash App 或 Google Pay 授權。",
+                        "如果應用程式不讓你移除卡片",
+                        "檢查是否有進行中的訂單、會員、訂閱、未付餘額、家庭/商務個人資料或必要備用付款方式。取消服務、把預設付款改成較安全的低額度卡片，或聯絡該應用程式官方客服。然後確認銀行/信用卡 app 已開啟通知。");
+            case "zh":
+                return merchantGuideValue(key,
+                        "从应用中移除已保存银行卡",
+                        "一般规则",
+                        "请照护者在场时逐一打开每个应用。进入“账户”或“个人资料”，然后找 Wallet、钱包或付款方式。移除所有已保存银行卡，再检查订阅、会员、自动付款、Pass 或 Plus 计划，因为它们可能保留单独的默认付款方式。",
+                        "Amazon",
+                        "打开 Amazon > 个人资料图标或菜单 > Your Account > Your Payments 或 Wallet。点每张卡，然后选择 Edit 或 Remove from wallet。也检查 Prime、Subscribe & Save、数字订阅和 1-Click/默认地址设置。",
+                        "Walmart",
+                        "打开 Walmart > Account > Settings 齿轮 > Wallet。移除已保存银行卡或银行付款方式。如果不能移除某张卡，请先检查 Walmart+、订阅、药房或待处理订单。",
+                        "Target",
+                        "打开 Target > My Target > Settings 或 Profile > Payment cards 或 Wallet。移除已保存银行卡。也检查 Target Circle Card、Wallet 条码付款、订阅、登记清单和当日配送设置。",
+                        "DoorDash, Uber Eats, Instacart",
+                        "打开 Account 或 Profile > Payment 或 Payment methods。点银行卡、向左滑动，或使用 Edit/Delete。也检查 DashPass、Instacart+、会员、礼品卡余额、PayPal、Venmo、Google Pay 和备用付款方式。",
+                        "Uber 和 Lyft",
+                        "打开 Account 或 Menu > Wallet、Payment 或 Payment methods。选择每张卡并点 Remove 或 Delete。如果无法移除，请先更改默认打车付款、商务资料、Lyft Cash、Uber Cash、Uber One 或家庭/商务账户。",
+                        "PayPal, Venmo, Cash App, Google Wallet",
+                        "打开钱包或转账应用，检查 Payment methods、Cards、Banks、Linked apps、Automatic payments、Subscriptions 或 Authorized merchants。从购物应用移除银行卡不一定会移除 PayPal、Venmo、Cash App 或 Google Pay 授权。",
+                        "如果应用不让移除银行卡",
+                        "检查是否有进行中的订单、会员、订阅、未付款余额、家庭/商务资料或必需的备用付款方式。取消服务，把默认付款改成更安全的低额度卡，或联系该应用的官方客服。然后确认银行/信用卡应用已开启提醒。");
+            case "es":
+                return merchantGuideValue(key,
+                        "Quitar tarjetas guardadas de apps",
+                        "Regla general",
+                        "Abre cada app con el cuidador presente. Ve a Account o Profile, luego Wallet o Payment methods. Quita todas las tarjetas guardadas y revisa Subscriptions, Membership, Autopay, Pass o Plus, porque pueden guardar otro pago predeterminado.",
+                        "Amazon",
+                        "Abre Amazon > icono de perfil o menu > Your Account > Your Payments o Wallet. Toca cada tarjeta y elige Edit o Remove from wallet. Revisa tambien Prime, Subscribe & Save, suscripciones digitales y ajustes de 1-Click/direccion predeterminada.",
+                        "Walmart",
+                        "Abre Walmart > Account > engrane de Settings > Wallet. Quita tarjetas o pagos bancarios guardados. Si no se puede quitar una tarjeta, revisa primero Walmart+, suscripciones, farmacia o pedidos pendientes.",
+                        "Target",
+                        "Abre Target > My Target > Settings o Profile > Payment cards o Wallet. Quita tarjetas guardadas. Revisa tambien Target Circle Card, pago con codigo de barras de Wallet, suscripciones, registros y entrega el mismo dia.",
+                        "DoorDash, Uber Eats, Instacart",
+                        "Abre Account o Profile > Payment o Payment methods. Toca la tarjeta, desliza a la izquierda o usa Edit/Delete si aparece. Revisa tambien DashPass, Instacart+, membresias, saldo de gift card, PayPal, Venmo, Google Pay y pagos de respaldo.",
+                        "Uber y Lyft",
+                        "Abre Account o Menu > Wallet, Payment o Payment methods. Selecciona cada tarjeta y elige Remove o Delete. Si se bloquea, cambia primero el pago predeterminado, perfil de negocios, Lyft Cash, Uber Cash, Uber One o cuenta familiar/empresarial.",
+                        "PayPal, Venmo, Cash App, Google Wallet",
+                        "Abre la app de dinero o wallet y revisa Payment methods, Cards, Banks, Linked apps, Automatic payments, Subscriptions o Authorized merchants. Quitar una tarjeta de una app de compras no siempre quita una autorizacion de PayPal, Venmo, Cash App o Google Pay.",
+                        "Si una app no deja quitar la tarjeta",
+                        "Busca pedido activo, membresia, suscripcion, saldo pendiente, perfil familiar/empresarial o pago de respaldo requerido. Cancela el servicio, cambia el pago predeterminado a una tarjeta mas segura de bajo limite o contacta soporte oficial de la app. Luego verifica alertas en la app del banco/tarjeta.");
+            default:
+                return merchantGuideValue(key,
+                        "Remove saved cards from apps",
+                        "General rule",
+                        "Open each app with the caregiver present. Go to Account or Profile, then Wallet or Payment methods. Remove every saved card, then check Subscriptions, Membership, Autopay, Pass, or Plus plans because those can keep a separate default payment method.",
+                        "Amazon",
+                        "Open Amazon > person icon or menu > Your Account > Your Payments or Wallet. Tap each card, then Edit or Remove from wallet. Also check Prime, Subscribe & Save, digital subscriptions, and 1-Click/default address settings.",
+                        "Walmart",
+                        "Open Walmart > Account > Settings gear > Wallet. Remove saved cards or bank payment methods. If a card cannot be removed, check Walmart+, subscriptions, pharmacy, or pending orders first.",
+                        "Target",
+                        "Open Target > My Target > Settings or Profile > Payment cards or Wallet. Remove saved cards. Also check Target Circle Card, Wallet barcode payment, subscriptions, registries, and same-day delivery settings.",
+                        "DoorDash, Uber Eats, Instacart",
+                        "Open Account or Profile > Payment or Payment methods. Tap the card, swipe left, or use Edit/Delete if shown. Also check DashPass, Instacart+, memberships, gift card balance, PayPal, Venmo, Google Pay, and backup payment methods.",
+                        "Uber and Lyft",
+                        "Open Account or Menu > Wallet, Payment, or Payment methods. Select each card and choose Remove or Delete. If removal is blocked, change the default ride payment, business profile, Lyft Cash, Uber Cash, Uber One, or family/business account first.",
+                        "PayPal, Venmo, Cash App, Google Wallet",
+                        "Open the money or wallet app and review Payment methods, Cards, Banks, Linked apps, Automatic payments, Subscriptions, or Authorized merchants. Removing a card from a shopping app may not remove a PayPal, Venmo, Cash App, or Google Pay authorization.",
+                        "If an app will not let you remove the card",
+                        "Look for an active order, membership, subscription, unpaid balance, family/business profile, or required backup payment method. Cancel the service, change its default payment to a safer low-limit card, or contact the app's official support. Then verify in the bank/card app that alerts are on.");
+        }
+    }
+
+    private String merchantGuideValue(
+            String key,
+            String title,
+            String generalTitle,
+            String generalBody,
+            String amazonTitle,
+            String amazonBody,
+            String walmartTitle,
+            String walmartBody,
+            String targetTitle,
+            String targetBody,
+            String deliveryTitle,
+            String deliveryBody,
+            String ridesTitle,
+            String ridesBody,
+            String moneyTitle,
+            String moneyBody,
+            String stuckTitle,
+            String stuckBody
+    ) {
+        switch (key) {
+            case "merchant_guide_title": return title;
+            case "merchant_guide_general_title": return generalTitle;
+            case "merchant_guide_general_body": return generalBody;
+            case "merchant_guide_amazon_title": return amazonTitle;
+            case "merchant_guide_amazon_body": return amazonBody;
+            case "merchant_guide_walmart_title": return walmartTitle;
+            case "merchant_guide_walmart_body": return walmartBody;
+            case "merchant_guide_target_title": return targetTitle;
+            case "merchant_guide_target_body": return targetBody;
+            case "merchant_guide_delivery_title": return deliveryTitle;
+            case "merchant_guide_delivery_body": return deliveryBody;
+            case "merchant_guide_rides_title": return ridesTitle;
+            case "merchant_guide_rides_body": return ridesBody;
+            case "merchant_guide_money_title": return moneyTitle;
+            case "merchant_guide_money_body": return moneyBody;
+            case "merchant_guide_stuck_title": return stuckTitle;
+            case "merchant_guide_stuck_body": return stuckBody;
+            default: return null;
+        }
+    }
+
     private String t(String key) {
+        String merchantGuide = merchantGuideText(key);
+        if (merchantGuide != null) {
+            return merchantGuide;
+        }
         if (isFrench()) {
             switch (key) {
                 case "language_button": return "Français";
